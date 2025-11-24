@@ -1,8 +1,10 @@
 namespace Application.Abstractions.DTOs.Request;
 
 public record UpdateProfileDto(
-    string FirstName,
-    string LastName,
+    string? FirstName,
+    string? LastName,
     string? Bio,
-    string? PhoneNumber
+    string? PhoneNumber,
+    string? ProfilePictureUrl,
+    string? PreferredLanguage
 );

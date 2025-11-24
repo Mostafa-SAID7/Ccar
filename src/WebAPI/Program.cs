@@ -1,4 +1,5 @@
 using Application;
+using Application.Interfaces;
 using Infrastructure;
 using Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,6 +34,8 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddScoped<IDataSeeder, DataSeeder>();
+
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
@@ -59,6 +62,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+// Run the data seeder
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+    await seeder.SeedAsync();
+}
 
 var supportedCultures = new[] { "en-US", "ar-SA" };
 var localizationOptions = new RequestLocalizationOptions()

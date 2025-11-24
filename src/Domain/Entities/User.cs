@@ -9,6 +9,7 @@ public class User : IdentityUser
     public string LastName { get; set; } = string.Empty;
     public string? Bio { get; set; }
     public string? ProfilePictureUrl { get; set; }
+    public string PreferredLanguage { get; set; } = "en";
 
     // Authentication & Tokens
     public string? RefreshToken { get; set; }
