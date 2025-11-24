@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface User {
     id: string;
@@ -27,7 +28,7 @@ export interface LoginResponse {
 export class AuthService {
     private readonly TOKEN_KEY = 'ccar-token';
     private readonly REFRESH_TOKEN_KEY = 'ccar-refresh-token';
-    private readonly API_URL = '/api'; // Will be proxied to backend
+    private readonly API_URL = environment.apiUrl;
 
     private currentUserSubject = new BehaviorSubject<User | null>(null);
     public currentUser$ = this.currentUserSubject.asObservable();

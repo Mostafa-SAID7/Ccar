@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LanguageSwitcherComponent } from '../../shared/components/language-switcher/language-switcher.component';
+import { NotificationDropdownComponent } from '../../shared/components/notification-dropdown/notification-dropdown.component';
 
 @Component({
-    selector: 'app-navbar',
-    standalone: true,
-    imports: [CommonModule, RouterModule, ThemeToggleComponent, LanguageSwitcherComponent],
-    template: `
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterModule, ThemeToggleComponent, LanguageSwitcherComponent, NotificationDropdownComponent],
+  template: `
     <nav class="sticky top-0 z-50 glass-effect border-b border-[var(--color-border)]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -38,6 +39,7 @@ import { LanguageSwitcherComponent } from '../../shared/components/language-swit
           <!-- Actions -->
           <div class="flex items-center space-x-4 rtl:space-x-reverse">
             <app-language-switcher />
+            <app-notification-dropdown />
             <app-theme-toggle />
             <button
               routerLink="/auth/login"
@@ -91,15 +93,15 @@ import { LanguageSwitcherComponent } from '../../shared/components/language-swit
       </div>
     </nav>
   `,
-    styles: []
+  styles: []
 })
 export class NavbarComponent {
-    mobileMenuOpen = false;
+  mobileMenuOpen = false;
 
-    navLinks = [
-        { path: '/', label: 'Home', exact: true },
-        { path: '/community', label: 'Community', exact: false },
-        { path: '/cars', label: 'Cars', exact: false },
-        { path: '/about', label: 'About', exact: false },
-    ];
+  navLinks = [
+    { path: '/', label: 'Home', exact: true },
+    { path: '/community', label: 'Community', exact: false },
+    { path: '/cars', label: 'Cars', exact: false },
+    { path: '/about', label: 'About', exact: false },
+  ];
 }
