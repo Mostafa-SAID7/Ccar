@@ -1,3 +1,4 @@
+using Application.Abstractions;
 using Application.Abstractions.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,9 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
                    .AddInterceptors(interceptor);
         });
+
+        services.AddScoped<IApplicationDbContext>(provider => 
+            provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
