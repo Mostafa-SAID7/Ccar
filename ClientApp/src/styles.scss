@@ -1,1 +1,129 @@
-/* You can add global styles to this file, and also import other style files */
+/* Tailwind CSS imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* CSS Variables for Theming */
+:root {
+    /* Light theme colors */
+    --color-primary: #0066ff;
+    --color-primary-hover: #0052cc;
+    --color-secondary: #6600ff;
+    --color-accent: #ff6600;
+    --color-bg: #fafafa;
+    --color-surface: #ffffff;
+    --color-text: #1a1a1a;
+    --color-text-secondary: #666666;
+    --color-border: #e0e0e0;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+}
+
+/* Dark theme */
+.dark {
+    --color-primary: #4d94ff;
+    --color-primary-hover: #80b3ff;
+    --color-secondary: #944dff;
+    --color-accent: #ff944d;
+    --color-bg: #0d0d0d;
+    --color-surface: #1a1a1a;
+    --color-text: #ffffff;
+    --color-text-secondary: #b3b3b3;
+    --color-border: #333333;
+}
+
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+}
+
+/* Utility classes */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.animate-fade-in {
+    animation: fadeIn var(--transition-normal) ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Microsoft Fluent-inspired hover effects */
+.fluent-hover {
+    transition: all var(--transition-fast);
+}
+
+.fluent-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
