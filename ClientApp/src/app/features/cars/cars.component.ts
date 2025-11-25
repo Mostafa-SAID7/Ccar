@@ -1,16 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Car, CarService } from '../../core/services/car.service';
 
 @Component({
-    selector: 'app-cars',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 class="text-4xl font-bold text-[var(--color-text)] mb-8">Cars</h1>
-      <p class="text-[var(--color-text-secondary)]">Car listings coming soon...</p>
-    </div>
-  `,
-    styles: []
+  selector: 'app-cars',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './cars.component.html',
+  styles: []
 })
-export class CarsComponent { }
+export class CarsComponent implements OnInit {
+  cars: Car[] = [];
+  loading = true;
+  error: string | null = null;
+
+  constructor(private carService: CarService) { }
+
+  ngOnInit(): void {
+    this.loadCars();
+  }
+
+  loadCars(): void {
+    this.loading = true;
+    this.carService.getCars().subscribe({
+      next: (data) => {
+        this.cars = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching cars', err);
+        this.error = 'Failed to load cars. Please try again later.';
+        this.loading = false;
+      }
+    });
+  }
+}

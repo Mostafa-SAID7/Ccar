@@ -1,24 +1,21 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Application.Interfaces;
 using Domain.Constants;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure;
+namespace Infrastructure.DataSeeding.Seeders;
 
-public class DataSeeder : IDataSeeder
+public class UserSeeder
 {
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<User> _userManager;
 
-    public DataSeeder(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+    public UserSeeder(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
     {
         _roleManager = roleManager;
         _userManager = userManager;
     }
 
-    public async Task SeedAsync()
+    public async Task<User> SeedUsersAndRolesAsync()
     {
         // Ensure all roles exist
         var roles = new[]
@@ -66,6 +63,7 @@ public class DataSeeder : IDataSeeder
                 // Assign all roles to the default user
                 await _userManager.AddToRolesAsync(user, roles);
             }
+            return user;
         }
         else
         {
@@ -81,6 +79,7 @@ public class DataSeeder : IDataSeeder
             {
                 await _userManager.AddToRolesAsync(existingUser, missingRoles);
             }
+            return existingUser;
         }
     }
 }
