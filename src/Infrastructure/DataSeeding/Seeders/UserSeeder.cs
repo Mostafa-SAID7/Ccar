@@ -6,10 +6,10 @@ namespace Infrastructure.DataSeeding.Seeders;
 
 public class UserSeeder
 {
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<Role> _roleManager;
     private readonly UserManager<User> _userManager;
 
-    public UserSeeder(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+    public UserSeeder(RoleManager<Role> roleManager, UserManager<User> userManager)
     {
         _roleManager = roleManager;
         _userManager = userManager;
@@ -37,7 +37,7 @@ public class UserSeeder
         {
             if (!await _roleManager.RoleExistsAsync(roleName))
             {
-                await _roleManager.CreateAsync(new IdentityRole(roleName));
+                await _roleManager.CreateAsync(new Role { Name = roleName });
             }
         }
 

@@ -5,6 +5,8 @@ using Infrastructure.Services.Email;
 using Infrastructure.Services.Audit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Application.Interfaces;
+using Infrastructure.Services;
 
 namespace Infrastructure;
 
@@ -18,6 +20,11 @@ public static class DependencyInjection
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddTransient<IEmailService, EmailService>();
         services.AddScoped<IAuditService, AuditService>();
+
+        services.AddTransient<Infrastructure.DataSeeding.Seeders.UserSeeder>();
+        services.AddTransient<Infrastructure.DataSeeding.Seeders.CarSeeder>();
+        services.AddScoped<Application.Interfaces.IDataSeeder, Infrastructure.DataSeeding.DataSeeder>();
+        services.AddScoped<ICommunityService, CommunityService>();
 
         return services;
     }

@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{17BBAF57-BC4B-4E72-B54D-271C21FEF6F7}|Infrastructure\\Infrastructure.csproj|c:\\users\\memos\\onedrive\\desktop\\projects\\ccar\\src\\infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{17BBAF57-BC4B-4E72-B54D-271C21FEF6F7}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{15C9E035-9C31-4BAA-8260-411FC195CE1A}|WebAPI\\WebAPI.csproj|c:\\users\\memos\\onedrive\\desktop\\projects\\ccar\\src\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{15C9E035-9C31-4BAA-8260-411FC195CE1A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDC2D851-C2B0-4D30-AC59-2C207B7AE195}|Persistence\\Persistence.csproj|c:\\users\\memos\\onedrive\\desktop\\projects\\ccar\\src\\persistence\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDC2D851-C2B0-4D30-AC59-2C207B7AE195}|Persistence\\Persistence.csproj|solutionrelative:persistence\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{15C9E035-9C31-4BAA-8260-411FC195CE1A}|WebAPI\\WebAPI.csproj|c:\\users\\memos\\onedrive\\desktop\\projects\\ccar\\src\\webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -23,28 +31,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\Infrastructure\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\DependencyInjection.cs",
+              "ToolTip": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\Infrastructure\\DependencyInjection.cs",
+              "RelativeToolTip": "Infrastructure\\DependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T06:33:38.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\Persistence\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "Persistence\\DependencyInjection.cs",
+              "ToolTip": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\Persistence\\DependencyInjection.cs",
+              "RelativeToolTip": "Persistence\\DependencyInjection.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAvwCAAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T06:33:20.341Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\WebAPI\\Program.cs",
               "RelativeDocumentMoniker": "WebAPI\\Program.cs",
               "ToolTip": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\WebAPI\\Program.cs",
               "RelativeToolTip": "WebAPI\\Program.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAF4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAD8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-24T20:17:19.855Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WebAPI",
+              "DocumentIndex": 3,
+              "Title": "WebAPI.csproj",
               "DocumentMoniker": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\WebAPI\\WebAPI.csproj",
               "RelativeDocumentMoniker": "WebAPI\\WebAPI.csproj",
               "ToolTip": "C:\\Users\\memos\\OneDrive\\Desktop\\Projects\\Ccar\\src\\WebAPI\\WebAPI.csproj",
               "RelativeToolTip": "WebAPI\\WebAPI.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-24T20:08:18.925Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-24T20:08:18.925Z"
             }
           ]
         }

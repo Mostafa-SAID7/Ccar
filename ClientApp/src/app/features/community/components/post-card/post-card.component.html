@@ -1,0 +1,48 @@
+<div class="bg-[var(--color-surface)] rounded-xl shadow-md border border-[var(--color-border)] p-4 mb-4">
+    <div class="flex items-center mb-4">
+        <div
+            class="h-10 w-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white font-bold mr-3">
+            {{ post.authorName.charAt(0) }}
+        </div>
+        <div>
+            <h3 class="font-semibold text-[var(--color-text)]">{{ post.authorName }}</h3>
+            <p class="text-xs text-[var(--color-text-secondary)]">{{ post.createdAt | date:'medium' }}</p>
+        </div>
+    </div>
+
+    <p class="text-[var(--color-text)] mb-4 whitespace-pre-wrap">{{ post.content }}</p>
+
+    <div *ngIf="post.imageUrl" class="mb-4 rounded-lg overflow-hidden">
+        <img [src]="post.imageUrl" alt="Post image" class="w-full h-auto object-cover max-h-96">
+        <button
+            class="flex items-center gap-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-background)] px-3 py-2 rounded-lg transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <span>{{ post.commentsCount }}</span>
+        </button>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-4 pt-4 border-t border-[var(--color-border)]">
+        <div *ngFor="let comment of post.recentComments" class="mb-3 pl-3 border-l-2 border-[var(--color-border)]">
+            <div class="flex justify-between items-baseline">
+                <span class="font-semibold text-sm text-[var(--color-text)]">{{ comment.authorName }}</span>
+                <span class="text-xs text-[var(--color-text-secondary)]">{{ comment.createdAt | date:'short' }}</span>
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)]">{{ comment.content }}</p>
+        </div>
+
+        <div class="flex gap-2 mt-3">
+            <input #commentInput type="text" placeholder="Write a comment..."
+                class="flex-1 bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-[var(--color-text)]"
+                (keyup.enter)="onComment(commentInput.value); commentInput.value = ''">
+            <button (click)="onComment(commentInput.value); commentInput.value = ''"
+                class="bg-[var(--color-primary)] text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-[var(--color-primary-dark)] transition-colors">
+                Post
+            </button>
+        </div>
+    </div>
+</div>

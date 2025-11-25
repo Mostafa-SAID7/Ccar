@@ -3,22 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-export interface Car {
-    id: string;
-    make: string;
-    model: string;
-    year: number;
-    color: string;
-    licensePlate: string;
-    vin: string;
-    mileage: number;
-    description?: string;
-    imageUrl?: string;
-    isAvailable: boolean;
-    pricePerDay: number;
-    ownerId: string;
-    createdAt: string;
-}
+import { Car } from '../models/car.model';
 
 @Injectable({
     providedIn: 'root'

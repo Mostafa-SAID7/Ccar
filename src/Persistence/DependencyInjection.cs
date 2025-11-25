@@ -1,5 +1,6 @@
 using Application.Abstractions;
 using Application.Abstractions.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,12 +23,15 @@ public static class DependencyInjection
                    .AddInterceptors(interceptor);
         });
 
-        services.AddScoped<IApplicationDbContext>(provider => 
+        services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        services.AddScoped<IUnitOfWork, Repositories.UnitOfWork>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repositories.Repository<>));
 
         return services;
     }

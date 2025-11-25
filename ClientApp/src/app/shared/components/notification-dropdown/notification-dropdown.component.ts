@@ -5,11 +5,11 @@ import { NotificationService, Notification } from '../../../core/services/notifi
 import { fadeInAnimation, slideInAnimation } from '../../../core/animations/animations';
 
 @Component({
-    selector: 'app-notification-dropdown',
-    standalone: true,
-    imports: [CommonModule, RouterModule],
-    animations: [fadeInAnimation, slideInAnimation],
-    template: `
+  selector: 'app-notification-dropdown',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  animations: [fadeInAnimation, slideInAnimation],
+  template: `
     <div class="relative">
       <!-- Notification Bell Button -->
       <button
@@ -70,8 +70,7 @@ import { fadeInAnimation, slideInAnimation } from '../../../core/animations/anim
             *ngFor="let notification of notifications(); trackBy: trackByNotificationId"
             @slideIn
             class="px-4 py-3 border-b border-[var(--color-border)] hover:bg-[var(--color-border)] transition-colors cursor-pointer"
-            [class.bg-primary-50]="!notification.read"
-            [class.dark:bg-primary-900/10]="!notification.read"
+            [ngClass]="{'bg-primary-50': !notification.read, 'dark:bg-primary-900/10': !notification.read}"
             (click)="handleNotificationClick(notification)"
           >
             <div class="flex items-start gap-3">
@@ -114,68 +113,68 @@ import { fadeInAnimation, slideInAnimation } from '../../../core/animations/anim
       (click)="closeDropdown()"
     ></div>
   `,
-    styles: []
+  styles: []
 })
 export class NotificationDropdownComponent {
-    notificationService = inject(NotificationService);
-    isOpen = signal(false);
+  notificationService = inject(NotificationService);
+  isOpen = signal(false);
 
-    get notifications() {
-        return this.notificationService.notifications$;
+  get notifications() {
+    return this.notificationService.notifications$;
+  }
+
+  toggleDropdown(): void {
+    this.isOpen.update(open => !open);
+  }
+
+  closeDropdown(): void {
+    this.isOpen.set(false);
+  }
+
+  markAllAsRead(): void {
+    this.notificationService.markAllAsRead();
+  }
+
+  clearAll(): void {
+    if (confirm('Are you sure you want to clear all notifications?')) {
+      this.notificationService.clearAll();
+      this.closeDropdown();
     }
+  }
 
-    toggleDropdown(): void {
-        this.isOpen.update(open => !open);
+  handleNotificationClick(notification: Notification): void {
+    this.notificationService.markAsRead(notification.id);
+    if (notification.link) {
+      // Navigate to link if provided
+      window.location.href = notification.link;
     }
+  }
 
-    closeDropdown(): void {
-        this.isOpen.set(false);
-    }
+  trackByNotificationId(index: number, notification: Notification): string {
+    return notification.id;
+  }
 
-    markAllAsRead(): void {
-        this.notificationService.markAllAsRead();
-    }
+  getIconClasses(type: string): string {
+    const baseClasses = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center';
+    const typeClasses = {
+      info: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
+      success: 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400',
+      warning: 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400',
+      error: 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
+    };
+    return `${baseClasses} ${typeClasses[type as keyof typeof typeClasses]}`;
+  }
 
-    clearAll(): void {
-        if (confirm('Are you sure you want to clear all notifications?')) {
-            this.notificationService.clearAll();
-            this.closeDropdown();
-        }
-    }
+  getTimeAgo(timestamp: Date): string {
+    const now = new Date();
+    const diff = now.getTime() - timestamp.getTime();
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
 
-    handleNotificationClick(notification: Notification): void {
-        this.notificationService.markAsRead(notification.id);
-        if (notification.link) {
-            // Navigate to link if provided
-            window.location.href = notification.link;
-        }
-    }
-
-    trackByNotificationId(index: number, notification: Notification): string {
-        return notification.id;
-    }
-
-    getIconClasses(type: string): string {
-        const baseClasses = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center';
-        const typeClasses = {
-            info: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
-            success: 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400',
-            warning: 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400',
-            error: 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
-        };
-        return `${baseClasses} ${typeClasses[type as keyof typeof typeClasses]}`;
-    }
-
-    getTimeAgo(timestamp: Date): string {
-        const now = new Date();
-        const diff = now.getTime() - timestamp.getTime();
-        const minutes = Math.floor(diff / 60000);
-        const hours = Math.floor(diff / 3600000);
-        const days = Math.floor(diff / 86400000);
-
-        if (minutes < 1) return 'Just now';
-        if (minutes < 60) return `${minutes}m ago`;
-        if (hours < 24) return `${hours}h ago`;
-        return `${days}d ago`;
-    }
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${days}d ago`;
+  }
 }

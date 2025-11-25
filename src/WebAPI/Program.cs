@@ -21,7 +21,7 @@ builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddExceptionHandler<WebAPI.Middleware.GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(); // Enable Swagger
 
 builder.Services.AddCors(options =>
 {
@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddScoped<IDataSeeder, DataSeeder>();
+
 
 builder.Services
     .AddApplication()
@@ -78,25 +78,16 @@ var localizationOptions = new RequestLocalizationOptions()
 
 app.UseExceptionHandler();
 
-app.UseRequestLocalization(localizationOptions);
-
-app.UseMiddleware<WebAPI.Middleware.UserTrackingMiddleware>();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseSerilogRequestLogging();
-
-app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ccar API V1");
+    // Optional: serve Swagger UI at root
+    // c.RoutePrefix = string.Empty;
+});
 
 app.MapControllers();
 app.MapHub<WebAPI.Hubs.NotificationHub>("/notifications");
