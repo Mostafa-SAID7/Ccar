@@ -1,27 +1,121 @@
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-[var(--color-text)] mb-2">Community Feed</h1>
-        <p class="text-[var(--color-text-secondary)]">Connect with other car enthusiasts.</p>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" appInfiniteScroll (scrolled)="onScroll()"
+    [scrollEnabled]="!loading && hasMore">
+    <!-- Header Section -->
+    <div class="mb-8 animate-fade-in">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h1 class="text-4xl font-bold gradient-text mb-2">Community Feed</h1>
+                <p class="text-[var(--color-text-secondary)]">Connect with fellow car enthusiasts worldwide</p>
+            </div>
+            <button class="btn-gradient px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all">
+                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                New Post
+            </button>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="flex flex-wrap gap-4 items-center">
+            <div class="flex gap-2">
+                <button *ngFor="let filter of filters" (click)="setFilter(filter.value)"
+                    [class]="'px-4 py-2 rounded-full font-medium transition-all ' + 
+                                 (currentFilter === filter.value ? 
+                                  'bg-[var(--color-primary)] text-white shadow-md' : 
+                                  'bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]')">
+                    {{ filter.label }}
+                </button>
+            </div>
+            <div class="flex-1 min-w-[200px]">
+                <div class="relative">
+                    <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search posts..."
+                        class="w-full px-4 py-2 pl-10 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] 
+                                  text-[var(--color-text)] placeholder-[var(--color-text-muted)]
+                                  focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all">
+                    <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-text-muted)]"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <app-create-post (createPost)="onCreatePost($event)"></app-create-post>
-
-    <div *ngIf="loading" class="flex justify-center py-12">
-        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--color-primary)]"></div>
+    <!-- Create Post Section -->
+    <div class="mb-6 animate-slide-up">
+        <app-create-post (createPost)="onCreatePost($event)"></app-create-post>
     </div>
 
-    <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
-        <strong class="font-bold">Error!</strong>
-        <span class="block sm:inline"> {{ error }}</span>
+    <!-- Loading Skeletons -->
+    <div *ngIf="loading && posts.length === 0" class="space-y-6">
+        <div *ngFor="let i of [1,2,3]" class="card-premium p-6">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="skeleton skeleton-avatar"></div>
+                <div class="flex-1">
+                    <div class="skeleton skeleton-text" style="width: 150px;"></div>
+                    <div class="skeleton skeleton-text" style="width: 100px; height: 0.75rem;"></div>
+                </div>
+            </div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text" style="width: 80%;"></div>
+            <div class="skeleton skeleton-card mt-4"></div>
+        </div>
     </div>
 
-    <div *ngIf="!loading && !error">
-        <app-post-card *ngFor="let post of posts" [post]="post" (like)="onLikePost($event)"
-            (comment)="onCommentPost($event)">
-        </app-post-card>
+    <!-- Error State -->
+    <div *ngIf="error" class="card-premium p-6 border-l-4 border-[var(--color-error)] mb-6 animate-bounce-in">
+        <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-[var(--color-error)] flex-shrink-0" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div class="flex-1">
+                <h3 class="font-bold text-[var(--color-text)] mb-1">Something went wrong</h3>
+                <p class="text-[var(--color-text-secondary)] text-sm">{{ error }}</p>
+            </div>
+            <button (click)="loadPosts()"
+                class="text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] font-semibold text-sm">
+                Retry
+            </button>
+        </div>
+    </div>
 
-        <div *ngIf="posts.length === 0" class="text-center py-12 text-[var(--color-text-secondary)]">
-            No posts yet. Be the first to share something!
+    <!-- Posts List -->
+    <div *ngIf="!loading || posts.length > 0" class="space-y-6">
+        <div *ngFor="let post of posts; let i = index" class="animate-fade-in"
+            [style.animation-delay]="(i * 50) + 'ms'">
+            <app-post-card [post]="post" (like)="onLikePost($event)" (comment)="onCommentPost($event)">
+            </app-post-card>
+        </div>
+
+        <!-- Loading More Indicator -->
+        <div *ngIf="loading && posts.length > 0" class="flex justify-center py-8">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="posts.length === 0 && !loading && !error" class="text-center py-16 animate-scale-in">
+            <div class="mb-6">
+                <svg class="w-24 h-24 mx-auto text-[var(--color-text-muted)] opacity-50" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                    </path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-[var(--color-text)] mb-2">No posts yet</h3>
+            <p class="text-[var(--color-text-secondary)] mb-6">Be the first to share something with the community!</p>
+            <button class="btn-gradient px-8 py-3 rounded-full font-semibold">
+                Create First Post
+            </button>
+        </div>
+
+        <!-- End of Feed Message -->
+        <div *ngIf="!hasMore && posts.length > 0" class="text-center py-8 text-[var(--color-text-muted)]">
+            <p>You've reached the end of the feed</p>
         </div>
     </div>
 </div>
